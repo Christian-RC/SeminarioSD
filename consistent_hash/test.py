@@ -18,69 +18,68 @@ and then add it back.
 
 
 def read_words(fname):
-  """
-  Just read a bunch of words from a file.
-  """
-  result = []
-  with open(fname, 'r') as f:
-    for word in f:
-      word = word.split('/')[0]
-      word = word.strip()
-      result.append(word)
+    """
+    Just read a bunch of words from a file.
+    """
+    result = []
+    with open(fname, 'r') as f:
+        for word in f:
+            word = word.split('/')[0]
+            word = word.strip()
+            result.append(word)
 
-  return result
+    return result
 
 
 def run(words):
-  """
-  We create an object representing the hash scheme that we are willing to use.
-  The hash object is then passed to the Store constructor. When adding elements
-  to the store, the selected hash scheme is used to determine where to place
-  the records.
-  """
-  my_hash = CHash()
-  my_store = Store(my_hash)
-  
-  
-  """
+    """
+    We create an object representing the hash scheme that we are willing to use.
+    The hash object is then passed to the Store constructor. When adding elements
+    to the store, the selected hash scheme is used to determine where to place
+    the records.
+    """
+    # my_hash = CHash()  # objeto que representa el esquema hash
+    my_hash = ModHash()
+    my_store = Store(my_hash)  # el objeto hash se pasa al contructor
+
+    # al agregar elementos al Store, el esquema hash seleccionado se usa para
+    # determinar dónde colocar los registros.
+
+    """
   Add three nodes to the Store
   """
-  my_store.add_node("Node 1")
-  my_store.add_node("Node 2")
-  my_store.add_node("Node 3")
-  
-  my_store.dump()
-  
+    my_store.add_node("Node 1")
+    my_store.add_node("Node 2")
+    my_store.add_node("Node 3")
 
-  """
+    my_store.dump()
+
+    """
   Save all words in the Store
   """
-  for word in words:
-      my_store.add_resource(word)
-  
-  my_store.dump()
+    for word in words:
+        my_store.add_resource(word)
 
+    my_store.dump()
 
-  """
+    """
   Remove one node from the Store. Stored objects need to be migrated to the
   remaining nodes.
   """
-  my_store.remove_node("Node 1")
-  my_store.dump()
+    my_store.remove_node("Node 1")
+    my_store.dump()
 
-
-  """
+    """
   Add the node back to the Store. Objects need to be migrated to conform to the
   Hash scheme.
   """
-  my_store.add_node("Node 1")
-  my_store.dump()
-
+    my_store.add_node("Node 1")
+    my_store.dump()
 
 
 if __name__ == '__main__':
 
-  words = read_words('words_alpha.txt')
-  words = words[:100]
+    words = read_words('words_alpha.txt')
+    words = words[:100]
 
-  run(words)
+    run(words)

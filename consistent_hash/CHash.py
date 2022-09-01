@@ -14,6 +14,7 @@ from bisect import bisect_left
 from HashScheme import HashScheme
 import hashlib
 
+
 class CHash(HashScheme):
     def __init__(self):
         self.__scheme_name = 'Consistent_Hash'
@@ -23,7 +24,7 @@ class CHash(HashScheme):
         """
         Calculates an initial hash using md5.
         """
-        return int(hashlib.md5(value.encode()).hexdigest(),16) % 10000
+        return int(hashlib.md5(value.encode()).hexdigest(), 16) % 10000
 
     def get_name(self):
         return self.__scheme_name
@@ -33,7 +34,8 @@ class CHash(HashScheme):
         Prints information about the hash generator
         """
         for k in self.nodes.keys():
-            print ("Node: {0} hash: {1}".format(self.nodes[k], k))
+            print("Node: {0} hash: {1}".format(self.nodes[k], k))
+            #print("************************ :", k)
 
     def add_node(self, new_node):
         """
@@ -82,4 +84,3 @@ class CHash(HashScheme):
             found_index -= 1
 
         return self.nodes[sorted_nodes[found_index]]
-

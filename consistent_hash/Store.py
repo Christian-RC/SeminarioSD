@@ -11,6 +11,8 @@
 This class represents a Resource (or a record) that is stored in one of the
 nodes of the datastore.
 """
+
+
 class Resource:
     def __init__(self, name):
         self.name = name
@@ -20,6 +22,8 @@ class Resource:
 This class represents a Node, the place were resources (or records) are stored
 in the datastore.
 """
+
+
 class Node:
     def __init__(self, name):
         self.name = name
@@ -30,6 +34,8 @@ class Node:
 The class Store represents a distributed datastore. Each datastore stores a
 number of resources. Resources are assigned to nodes based on a hash schema.
 """
+
+
 class Store:
     def __init__(self, hash_generator):
         self.nodes = {}
@@ -44,9 +50,10 @@ class Store:
         print("Using scheme: {0}".format(self.hash_generator.get_name()))
         self.hash_generator.dump()
         for node in self.nodes.keys():
-            print('[{0} ({1} items)]'.format(self.nodes[node].name, len(self.nodes[node].resources)))
-            for resource in self.nodes[node].resources:
-                print('    - {0}'.format(resource))
+            print('[{0} ({1} items)]'.format(
+                self.nodes[node].name, len(self.nodes[node].resources)))
+            # for resource in self.nodes[node].resources:
+            #    print('    - {0}'.format(resource))
 
     def add_node(self, new_node):
         """
@@ -57,17 +64,21 @@ class Store:
         consistent hash. You may need to adjust it to make it work with modular
         hash. Hash_generator has a member "scheme_name" that you can use.
         """
-        prev_node = self.hash_generator.hash(new_node)
 
-        rc = self.hash_generator.add_node(new_node)
-        if rc == 0:
+        # nodo anterior
+        prev_node = self.hash_generator.hash(new_node)  # --> hash en ModHash
+
+        rc = self.hash_generator.add_node(new_node)  # --> add_node en ModHash
+        if rc == 0:  # verifica que el valor hash no exista
             self.nodes[new_node] = Node(new_node)
+            # nodos[nombre_nodo] --> almacenará los datos
 
             """
             If there is a node in the counter clockwise direction, then the
             resources stored in that node need to be rebalanced (removed from a
             node and added to another one).
             """
+
             if prev_node is not None:
                 resources = self.nodes[prev_node].resources.copy()
 
